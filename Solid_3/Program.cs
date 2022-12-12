@@ -1,46 +1,44 @@
-﻿using System;
-//Порушено принцип Лісков
-class Rectangle
+using System;
+//Порушено ЛІСКОВ ПРИНЦИП і ПРИНЦИП ВІДКРИТОСТІ/ЗАКРИТОСТІ
+interface IFigure
 {
-    public virtual int Width { get; set; }
-    public virtual int Height { get; set; }
-    public int GetRectangleArea()
+    int GetArea();
+}
+class Rectangle: IFigure
+{
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public int GetArea()
     {
         return Width * Height;
     }
 }
 
 //квадрат наслідується від прямокутника!!!
-class Square : Rectangle
+class Square :  IFigure
 {
-    public override int Width
+    public int GetArea()
     {
-        get { return base.Width; }
+        return Width * Width;
+    }
+    public int Width
+    {
+        get { return Width; }
         set
         {
-            base.Width = value;
+            Width = value;
         }
     }
-    public override int Height
-    {
-        get { return base.Height; }
-        set
-        {
-            base.Height = value;
-            
-        }
-    }
-    
 
     class Program
     {
         static void Main(string[] args)
         {
-            Rectangle rect = new Square();
+            Rectangle rect = new Rectangle();
             rect.Width = 5;
             rect.Height = 10;
 
-            Console.WriteLine(rect.GetRectangleArea());
+            Console.WriteLine(rect.GetArea());
             //Відповідь 100? Що не так???
             Console.ReadKey();
         }
